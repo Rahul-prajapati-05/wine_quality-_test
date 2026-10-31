@@ -1,0 +1,4 @@
+Model,Accuracy,Balanced Accuracy,Macro Precision,Macro Recall,Macro F1-Score,Weighted F1-Score
+Random Forest,0.8281,0.6284,0.5959,0.6284,0.6002,0.8327
+SGD Classifier,0.7781,0.5498,0.507,0.5498,0.5205,0.7963
+Support Vector Classifier (SVC),0.7063,0.7319,0.5244,0.7319,0.5599,0.7427

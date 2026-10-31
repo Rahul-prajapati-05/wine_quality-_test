@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinoPredict AI | Wine Quality Prediction & Analytics</title>
+    <meta name="description" content="Production-grade Red Wine Quality Prediction and Exploratory Data Analysis powered by Machine Learning. Oasis Infobyte Data Science Task 2.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom Vanilla CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Subtle Background Ambient Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="navbar" id="main-navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo" id="brand-logo-link">
+                <span class="wine-icon">🍷</span>
+                <div class="brand-text">
+                    <span class="brand-title">VinoPredict<span class="ai-badge">AI</span></span>
+                    <span class="brand-sub">Oasis Infobyte Data Science Task 2</span>
+                </div>
+            </a>
+
+            <nav class="nav-links" id="desktop-nav">
+                <a href="#predictor-section" class="nav-link active">Predictor</a>
+                <a href="#eda-gallery-section" class="nav-link">EDA Gallery</a>
+                <a href="#benchmark-section" class="nav-link">Model Comparison</a>
+                <a href="#chemical-drivers-section" class="nav-link">Chemical Drivers</a>
+            </nav>
+
+            <div class="nav-status">
+                <span class="status-indicator live" id="api-status-dot"></span>
+                <span class="status-label" id="api-status-text">Random Forest Online</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="badge-pill">
+                    <span class="pulse-dot"></span>
+                    <span>Physicochemical Machine Learning Suite</span>
+                </div>
+                <h1 class="hero-title">
+                    Predict Red Wine Quality With <span class="gradient-text">Ensemble Intelligence</span>
+                </h1>
+                <p class="hero-description">
+                    Leveraging objective chemical assays—alcohol concentration, volatile acidity, sulphates, and sulphur dioxide—to classify wines into actionable commercial tiers with <strong>82.81% accuracy</strong>.
+                </p>
+                <div class="hero-actions">
+                    <a href="#predictor-section" class="btn btn-primary" id="hero-cta-btn">
+                        <span>Launch Live Predictor</span>
+                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="#eda-gallery-section" class="btn btn-outline" id="hero-eda-btn">
+                        <span>Explore 5 EDA Insights</span>
+                    </a>
+                </div>
+
+                <!-- KPI Metric Pills -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-value">1,599</div>
+                        <div class="kpi-label">Wine Assays Analyzed</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value highlight-gold">82.81%</div>
+                        <div class="kpi-label">Random Forest Accuracy</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value highlight-teal">0.6002</div>
+                        <div class="kpi-label">Macro F1-Score</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">3 Tiers</div>
+                        <div class="kpi-label">Low • Medium • High</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-frame">
+                    <img src="/static/assets/wine_hero_banner.jpg" alt="Luxury Red Wine Tasting Pour" class="hero-banner-img" id="hero-banner-image">
+                    <div class="image-gradient-overlay"></div>
+                    <div class="floating-badge top-right">
+                        <span class="badge-icon">🍇</span>
+                        <div>
+                            <strong>Vinho Verde</strong>
+                            <small>Portuguese Red Sample</small>
+                        </div>
+                    </div>
+                    <div class="floating-badge bottom-left">
+                        <span class="badge-icon">⚡</span>
+                        <div>
+                            <strong>&lt; 1 ms Latency</strong>
+                            <small>Real-time Inference</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN PREDICTOR SECTION -->
+    <section class="section predictor-section" id="predictor-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Interactive Laboratory Engine</span>
+                <h2 class="section-title">Physicochemical Wine Quality Predictor</h2>
+                <p class="section-subtitle">
+                    Adjust the 11 laboratory chemical parameters below or choose a curated wine preset to evaluate real-time quality grading, class probabilities, and sommelier feedback.
+                </p>
+            </div>
+
+            <!-- Wine Sample Presets Bar -->
+            <div class="presets-container">
+                <span class="presets-label">Quick Presets:</span>
+                <div class="preset-buttons" id="preset-buttons-group">
+                    <button type="button" class="preset-btn active" data-preset="premium_reserve" id="preset-btn-premium">
+                        <span class="btn-emoji">🌟</span> Premium Reserve (High)
+                    </button>
+                    <button type="button" class="preset-btn" data-preset="commercial_table" id="preset-btn-commercial">
+                        <span class="btn-emoji">🍷</span> Commercial Standard (Medium)
+                    </button>
+                    <button type="button" class="preset-btn" data-preset="defective_batch" id="preset-btn-flawed">
+                        <span class="btn-emoji">⚠️</span> High Acidity Flaw (Low)
+                    </button>
+                    <button type="button" class="preset-btn" data-preset="dataset_mean" id="preset-btn-average">
+                        <span class="btn-emoji">⚖️</span> Dataset Average
+                    </button>
+                </div>
+            </div>
+
+            <!-- Predictor Workspace Grid -->
+            <div class="predictor-grid">
+
+                <!-- Input Controls Form Card -->
+                <form class="glass-card form-card" id="wine-prediction-form" onsubmit="return false;">
+
+                    <!-- Chemical Category 1: Fermentation & Body -->
+                    <div class="category-block">
+                        <div class="category-title">
+                            <span class="cat-icon">🔥</span>
+                            <span>1. Fermentation & Body Strength</span>
+                        </div>
+                        <div class="inputs-subgrid">
+
+                            <!-- Alcohol -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="alcohol-input">Alcohol (% vol) <span class="tag-vital">#1 Driver</span></label>
+                                    <span class="val-display" id="alcohol-val">12.8</span>
+                                </div>
+                                <input type="range" id="alcohol-range" min="8.0" max="15.0" step="0.1" value="12.8">
+                                <div class="range-meta">
+                                    <span>8.0%</span>
+                                    <span class="optimal-hint">Optimal: &gt;11.5%</span>
+                                    <span>15.0%</span>
+                                </div>
+                            </div>
+
+                            <!-- Residual Sugar -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="residual-sugar-input">Residual Sugar (g/dm³)</label>
+                                    <span class="val-display" id="residual_sugar-val">2.2</span>
+                                </div>
+                                <input type="range" id="residual_sugar-range" min="0.5" max="16.0" step="0.1" value="2.2">
+                                <div class="range-meta">
+                                    <span>0.5</span>
+                                    <span>Mean: 2.54</span>
+                                    <span>16.0</span>
+                                </div>
+                            </div>
+
+                            <!-- Density -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="density-input">Density (g/cm³)</label>
+                                    <span class="val-display" id="density-val">0.9958</span>
+                                </div>
+                                <input type="range" id="density-range" min="0.9900" max="1.0040" step="0.0001" value="0.9958">
+                                <div class="range-meta">
+                                    <span>0.9900</span>
+                                    <span>Mean: 0.9967</span>
+                                    <span>1.0040</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Chemical Category 2: Acidity & Freshness -->
+                    <div class="category-block">
+                        <div class="category-title">
+                            <span class="cat-icon">🍋</span>
+                            <span>2. Acidity Profile & Taste Balance</span>
+                        </div>
+                        <div class="inputs-subgrid">
+
+                            <!-- Volatile Acidity -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="volatile-acidity-input">Volatile Acidity (g/dm³) <span class="tag-critical">#2 Driver</span></label>
+                                    <span class="val-display" id="volatile_acidity-val">0.28</span>
+                                </div>
+                                <input type="range" id="volatile_acidity-range" min="0.10" max="1.60" step="0.01" value="0.28">
+                                <div class="range-meta">
+                                    <span>0.10</span>
+                                    <span class="optimal-hint">Keep &lt;0.50 (Vinegar risk)</span>
+                                    <span>1.60</span>
+                                </div>
+                            </div>
+
+                            <!-- Fixed Acidity -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="fixed-acidity-input">Fixed Acidity (g/dm³)</label>
+                                    <span class="val-display" id="fixed_acidity-val">8.5</span>
+                                </div>
+                                <input type="range" id="fixed_acidity-range" min="4.0" max="16.0" step="0.1" value="8.5">
+                                <div class="range-meta">
+                                    <span>4.0</span>
+                                    <span>Tartaric Acid</span>
+                                    <span>16.0</span>
+                                </div>
+                            </div>
+
+                            <!-- Citric Acid -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="citric-acid-input">Citric Acid (g/dm³)</label>
+                                    <span class="val-display" id="citric_acid-val">0.48</span>
+                                </div>
+                                <input type="range" id="citric_acid-range" min="0.00" max="1.00" step="0.01" value="0.48">
+                                <div class="range-meta">
+                                    <span>0.00</span>
+                                    <span>Freshness note</span>
+                                    <span>1.00</span>
+                                </div>
+                            </div>
+
+                            <!-- pH -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="ph-input">pH Scale</label>
+                                    <span class="val-display" id="pH-val">3.32</span>
+                                </div>
+                                <input type="range" id="pH-range" min="2.70" max="4.10" step="0.01" value="3.32">
+                                <div class="range-meta">
+                                    <span>2.70 (Sour)</span>
+                                    <span class="optimal-hint">3.2 – 3.5</span>
+                                    <span>4.10 (Flat)</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Chemical Category 3: Preservation & Minerals -->
+                    <div class="category-block">
+                        <div class="category-title">
+                            <span class="cat-icon">🛡️</span>
+                            <span>3. Preservation & Mineral Stability</span>
+                        </div>
+                        <div class="inputs-subgrid">
+
+                            <!-- Sulphates -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="sulphates-input">Sulphates (g/dm³) <span class="tag-vital">#3 Driver</span></label>
+                                    <span class="val-display" id="sulphates-val">0.88</span>
+                                </div>
+                                <input type="range" id="sulphates-range" min="0.30" max="2.00" step="0.01" value="0.88">
+                                <div class="range-meta">
+                                    <span>0.30</span>
+                                    <span class="optimal-hint">&gt;0.65 (Antioxidant)</span>
+                                    <span>2.00</span>
+                                </div>
+                            </div>
+
+                            <!-- Free Sulfur Dioxide -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="free-so2-input">Free SO₂ (mg/dm³)</label>
+                                    <span class="val-display" id="free_sulfur_dioxide-val">18.0</span>
+                                </div>
+                                <input type="range" id="free_sulfur_dioxide-range" min="1.0" max="75.0" step="1.0" value="18.0">
+                                <div class="range-meta">
+                                    <span>1.0</span>
+                                    <span>Active gas</span>
+                                    <span>75.0</span>
+                                </div>
+                            </div>
+
+                            <!-- Total Sulfur Dioxide -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="total-so2-input">Total SO₂ (mg/dm³)</label>
+                                    <span class="val-display" id="total_sulfur_dioxide-val">38.0</span>
+                                </div>
+                                <input type="range" id="total_sulfur_dioxide-range" min="5.0" max="290.0" step="1.0" value="38.0">
+                                <div class="range-meta">
+                                    <span>5.0</span>
+                                    <span>Preservative total</span>
+                                    <span>290.0</span>
+                                </div>
+                            </div>
+
+                            <!-- Chlorides -->
+                            <div class="input-control">
+                                <div class="control-header">
+                                    <label for="chlorides-input">Chlorides (Salt g/dm³)</label>
+                                    <span class="val-display" id="chlorides-val">0.055</span>
+                                </div>
+                                <input type="range" id="chlorides-range" min="0.010" max="0.620" step="0.001" value="0.055">
+                                <div class="range-meta">
+                                    <span>0.010</span>
+                                    <span class="optimal-hint">&lt;0.080</span>
+                                    <span>0.620</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Submit Trigger Button -->
+                    <div class="form-action-bar">
+                        <button type="button" class="btn btn-primary btn-full-width" id="predict-submit-btn">
+                            <span class="btn-spinner" id="predict-spinner"></span>
+                            <span class="btn-icon">⚡</span>
+                            <span id="predict-btn-text">Classify Wine Quality Tier</span>
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- Prediction Results Dashboard Card -->
+                <div class="glass-card result-card" id="result-card-container">
+
+                    <div class="result-card-header">
+                        <div class="live-pulse-container">
+                            <span class="live-pulse"></span>
+                            <span class="card-caption">Inference Analysis</span>
+                        </div>
+                        <span class="model-badge">Random Forest (150 Trees)</span>
+                    </div>
+
+                    <!-- Quality Tier Badge -->
+                    <div class="result-tier-display" id="result-tier-box">
+                        <div class="tier-stars" id="tier-stars-container">⭐⭐⭐⭐⭐</div>
+                        <h3 class="tier-title" id="tier-title">High Quality</h3>
+                        <div class="tier-pill" id="tier-pill-badge">Premium / Reserve Selection</div>
+                        <p class="tier-description" id="tier-description">
+                            Exceptional wine with optimal alcohol body, pristine volatile acidity control, and strong antioxidant sulphate protection. Premium export quality.
+                        </p>
+                    </div>
+
+                    <!-- Continuous Score Gauge -->
+                    <div class="score-gauge-box">
+                        <div class="gauge-header">
+                            <span>Estimated Sensory Score</span>
+                            <strong class="score-number" id="estimated-score-val">7.4 / 10</strong>
+                        </div>
+                        <div class="gauge-track">
+                            <div class="gauge-fill" id="score-gauge-bar" style="width: 88%;"></div>
+                        </div>
+                        <div class="gauge-ticks">
+                            <span>3.0 (Flawed)</span>
+                            <span>5.0 (Standard)</span>
+                            <span>7.0 (Reserve)</span>
+                            <span>8.0+ (Superior)</span>
+                        </div>
+                    </div>
+
+                    <!-- Probabilities Breakdown -->
+                    <div class="probability-bars-block">
+                        <div class="prob-title">Multi-Class Probability Distribution:</div>
+
+                        <!-- High Tier Bar -->
+                        <div class="prob-row">
+                            <div class="prob-meta">
+                                <span>High (7–8)</span>
+                                <strong id="prob-val-high">82.0%</strong>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill fill-green" id="prob-bar-high" style="width: 82%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Medium Tier Bar -->
+                        <div class="prob-row">
+                            <div class="prob-meta">
+                                <span>Medium (5–6)</span>
+                                <strong id="prob-val-med">13.0%</strong>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill fill-gold" id="prob-bar-med" style="width: 13%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Low Tier Bar -->
+                        <div class="prob-row">
+                            <div class="prob-meta">
+                                <span>Low (3–4)</span>
+                                <strong id="prob-val-low">5.0%</strong>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill fill-red" id="prob-bar-low" style="width: 5%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sommelier Chemical Profile Notes -->
+                    <div class="sommelier-panel">
+                        <h4 class="sommelier-heading">
+                            <span>🍷</span> Sommelier Oenological Diagnosis
+                        </h4>
+                        <div class="diagnosis-grid" id="diagnosis-grid">
+                            <div class="diag-item">
+                                <span class="diag-label">Alcohol Strength</span>
+                                <strong class="diag-status status-good" id="diag-alcohol">High (Rich Body)</strong>
+                            </div>
+                            <div class="diag-item">
+                                <span class="diag-label">Volatile Acidity</span>
+                                <strong class="diag-status status-good" id="diag-va">Clean & Aromatic</strong>
+                            </div>
+                            <div class="diag-item">
+                                <span class="diag-label">Sulphate Defense</span>
+                                <strong class="diag-status status-good" id="diag-so4">Optimal Preservation</strong>
+                            </div>
+                        </div>
+
+                        <ul class="actionable-tips-list" id="actionable-tips-list">
+                            <li>Volatile acidity is safely below sensory defect threshold (&lt;0.50 g/dm³).</li>
+                            <li>Alcohol concentration provides robust structure and lingering finish.</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EXPLORATORY DATA ANALYSIS (EDA) SECTION -->
+    <section class="section eda-section" id="eda-gallery-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Exploratory Data Analysis</span>
+                <h2 class="section-title">Statistical Visualizations & Oenological Insights</h2>
+                <p class="section-subtitle">
+                    Dive into the empirical patterns of the Red Wine Quality dataset. Generated using Seaborn & Matplotlib at 300 DPI.
+                </p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="eda-tabs" id="eda-tabs-bar">
+                <button class="eda-tab active" data-target="eda-dist">Class Distribution</button>
+                <button class="eda-tab" data-target="eda-corr">Correlation Matrix</button>
+                <button class="eda-tab" data-target="eda-alcohol">Alcohol vs Quality</button>
+                <button class="eda-tab" data-target="eda-features">Feature Histograms</button>
+                <button class="eda-tab" data-target="eda-outliers">Outlier Boxplots</button>
+            </div>
+
+            <!-- Tab Content Display Grid -->
+            <div class="eda-display-card glass-card">
+
+                <!-- Tab 1: Quality Distribution -->
+                <div class="eda-pane active" id="eda-dist">
+                    <div class="eda-pane-grid">
+                        <div class="eda-image-box">
+                            <img src="/outputs/quality_distribution.png" alt="Wine Quality Distribution" class="eda-chart-img" loading="lazy">
+                        </div>
+                        <div class="eda-insights-box">
+                            <div class="insight-badge">Core Finding</div>
+                            <h3>Severe Class Imbalance</h3>
+                            <p>
+                                Quality ratings <strong>5 and 6 account for 82.49%</strong> of the 1,599 samples. Extreme ratings (3 and 8) constitute only <strong>0.63%</strong> and <strong>1.13%</strong> respectively.
+                            </p>
+                            <div class="key-takeaways">
+                                <h4>Key Takeaways:</h4>
+                                <ul>
+                                    <li>Sensory panelists naturally gravitate toward median scores during blind tastings.</li>
+                                    <li>Standard accuracy is deceptive: a dummy classifier predicting Class 5/6 achieves 82.5% accuracy but zero utility.</li>
+                                    <li>This justified engineering the 3 commercial tiers: <strong>Low (3–4)</strong>, <strong>Medium (5–6)</strong>, and <strong>High (7–8)</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Correlation Matrix -->
+                <div class="eda-pane" id="eda-corr">
+                    <div class="eda-pane-grid">
+                        <div class="eda-image-box">
+                            <img src="/outputs/correlation_heatmap.png" alt="Correlation Heatmap" class="eda-chart-img" loading="lazy">
+                        </div>
+                        <div class="eda-insights-box">
+                            <div class="insight-badge">Feature Interaction</div>
+                            <h3>Correlation Matrix Heatmap</h3>
+                            <p>
+                                Visualizes Pearson correlation coefficients across all 11 physicochemical attributes and wine quality ratings.
+                            </p>
+                            <div class="key-takeaways">
+                                <h4>Key Takeaways:</h4>
+                                <ul>
+                                    <li><strong>Alcohol (+0.48)</strong>: Most prominent positive correlation with quality.</li>
+                                    <li><strong>Volatile Acidity (-0.39)</strong>: Most prominent negative correlation. Acetic acid directly impairs flavor.</li>
+                                    <li><strong>Sulphates (+0.25)</strong>: Positive correlation due to antioxidant stability.</li>
+                                    <li><strong>Fixed Acidity vs Density (+0.67)</strong>: Collinear relationship handled cleanly by tree ensembles.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Alcohol vs Quality -->
+                <div class="eda-pane" id="eda-alcohol">
+                    <div class="eda-pane-grid">
+                        <div class="eda-image-box">
+                            <img src="/outputs/alcohol_vs_quality.png" alt="Alcohol vs Quality Score" class="eda-chart-img" loading="lazy">
+                        </div>
+                        <div class="eda-insights-box">
+                            <div class="insight-badge">Biochemical Driver</div>
+                            <h3>Alcohol vs. Wine Quality</h3>
+                            <p>
+                                Boxplot analysis with mean markers across every individual rating score from 3 to 8.
+                            </p>
+                            <div class="key-takeaways">
+                                <h4>Key Takeaways:</h4>
+                                <ul>
+                                    <li>Quality 3 and 4 wines average ~9.9% alcohol by volume.</li>
+                                    <li>Quality 7 and 8 wines average <strong>~11.5% to 12.1%</strong> alcohol.</li>
+                                    <li>Higher alcohol signals ripe, physiologically mature grapes with concentrated sugars, yielding fuller mouthfeel and balanced tannins.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Feature Histograms -->
+                <div class="eda-pane" id="eda-features">
+                    <div class="eda-pane-grid">
+                        <div class="eda-image-box">
+                            <img src="/outputs/feature_distribution.png" alt="Feature Histograms" class="eda-chart-img" loading="lazy">
+                        </div>
+                        <div class="eda-insights-box">
+                            <div class="insight-badge">Data Distributions</div>
+                            <h3>Physicochemical Distributions</h3>
+                            <p>
+                                Histograms with Kernel Density Estimation (KDE) overlays for all 11 chemical features.
+                            </p>
+                            <div class="key-takeaways">
+                                <h4>Key Takeaways:</h4>
+                                <ul>
+                                    <li><strong>Gaussian Distributions</strong>: pH (mean 3.31) and density (mean 0.9967) display clean normal curves.</li>
+                                    <li><strong>Right-Skewed Attributes</strong>: Residual sugar, chlorides, and total sulfur dioxide exhibit heavy right tails.</li>
+                                    <li>Random Forest is unaffected by skewness due to monotonic decision splitting.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 5: Outliers Boxplots -->
+                <div class="eda-pane" id="eda-outliers">
+                    <div class="eda-pane-grid">
+                        <div class="eda-image-box">
+                            <img src="/outputs/outliers_boxplot.png" alt="Outlier Detection Boxplots" class="eda-chart-img" loading="lazy">
+                        </div>
+                        <div class="eda-insights-box">
+                            <div class="insight-badge">Data Quality</div>
+                            <h3>Interquartile Range Outliers</h3>
+                            <p>
+                                Boxplots isolating statistical outliers beyond 1.5 &times; IQR for all chemical variables.
+                            </p>
+                            <div class="key-takeaways">
+                                <h4>Key Takeaways:</h4>
+                                <ul>
+                                    <li>Extreme outliers detected in <strong>residual sugar (up to 15.5 g/dm³)</strong> and <strong>total SO₂ (up to 289 mg/dm³)</strong>.</li>
+                                    <li>These represent genuine high-sweetness or heavily stabilized production batches rather than measurement errors.</li>
+                                    <li>Retaining them allows models to learn boundary behaviors without data loss.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MODEL COMPARISON SECTION -->
+    <section class="section benchmark-section" id="benchmark-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Empirical Benchmarking</span>
+                <h2 class="section-title">Model Evaluation & Champion Selection</h2>
+                <p class="section-subtitle">
+                    Comparing 3 distinct paradigms trained on stratified partitions with class-weighted loss functions.
+                </p>
+            </div>
+
+            <!-- Model Comparison Cards Grid -->
+            <div class="models-grid">
+
+                <!-- Model 1: Random Forest (Winner) -->
+                <div class="model-card glass-card champion-card">
+                    <div class="card-ribbon">👑 Champion Model</div>
+                    <div class="model-header">
+                        <span class="model-algo">Random Forest</span>
+                        <span class="model-spec">150 Trees • Balanced Weights</span>
+                    </div>
+                    <div class="metric-score-huge highlight-gold">82.81%</div>
+                    <span class="metric-caption">Test Set Accuracy</span>
+
+                    <div class="model-metrics-list">
+                        <div class="metric-row">
+                            <span>Macro F1-Score:</span>
+                            <strong>0.6002 (Highest)</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Balanced Accuracy:</span>
+                            <strong>62.84%</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Weighted F1-Score:</span>
+                            <strong>0.8327</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Inference Latency:</span>
+                            <strong>&lt; 0.8 ms</strong>
+                        </div>
+                    </div>
+                    <div class="model-verdict">
+                        <strong>Deployment Choice:</strong> Exceptional precision on high-volume commercial table wines while reliably flagging premium lots.
+                    </div>
+                </div>
+
+                <!-- Model 2: Support Vector Classifier -->
+                <div class="model-card glass-card">
+                    <div class="card-ribbon secondary-ribbon">🎯 Highest Minority Recall</div>
+                    <div class="model-header">
+                        <span class="model-algo">Support Vector Classifier (SVC)</span>
+                        <span class="model-spec">RBF Kernel • StandardScaler</span>
+                    </div>
+                    <div class="metric-score-huge highlight-teal">73.19%</div>
+                    <span class="metric-caption">Balanced Accuracy</span>
+
+                    <div class="model-metrics-list">
+                        <div class="metric-row">
+                            <span>Overall Accuracy:</span>
+                            <strong>70.63%</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Macro F1-Score:</span>
+                            <strong>0.5599</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Low Tier Recall:</span>
+                            <strong class="highlight-green">69.2% (Highest)</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>High Tier Recall:</span>
+                            <strong class="highlight-green">81.4% (Highest)</strong>
+                        </div>
+                    </div>
+                    <div class="model-verdict">
+                        <strong>Quality Filter Choice:</strong> Aggressive sensitivity on flawed/defective wines. Ideal as a secondary screening mechanism.
+                    </div>
+                </div>
+
+                <!-- Model 3: SGD Classifier -->
+                <div class="model-card glass-card">
+                    <div class="model-header">
+                        <span class="model-algo">SGD Classifier</span>
+                        <span class="model-spec">Log-Loss • StandardScaler</span>
+                    </div>
+                    <div class="metric-score-huge">77.81%</div>
+                    <span class="metric-caption">Test Set Accuracy</span>
+
+                    <div class="model-metrics-list">
+                        <div class="metric-row">
+                            <span>Macro F1-Score:</span>
+                            <strong>0.5205</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Balanced Accuracy:</span>
+                            <strong>54.98%</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Weighted F1-Score:</span>
+                            <strong>0.7963</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>Computational Cost:</span>
+                            <strong>Minimal (Linear)</strong>
+                        </div>
+                    </div>
+                    <div class="model-verdict">
+                        <strong>Linear Baseline:</strong> Fast stochastic solver, but limited by inability to capture non-linear chemical synergies.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Confusion Matrices Preview -->
+            <div class="cm-display-box glass-card text-center">
+                <div class="cm-header">
+                    <h3>Multi-Model Confusion Matrices (Test Evaluation)</h3>
+                    <p>Demonstrates true positives and misclassifications across Low, Medium, and High classes.</p>
+                </div>
+                <img src="/outputs/confusion_matrices.png" alt="Confusion Matrices for 3 Models" class="cm-img" loading="lazy">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CHEMICAL DRIVERS SECTION -->
+    <section class="section chemical-drivers-section" id="chemical-drivers-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Interpretability & Oenology</span>
+                <h2 class="section-title">Chemical Drivers of Wine Excellence</h2>
+                <p class="section-subtitle">
+                    Gini impurity feature importances extracted directly from the Random Forest model.
+                </p>
+            </div>
+
+            <div class="drivers-grid">
+                <div class="drivers-chart-box glass-card">
+                    <img src="/outputs/feature_importance.png" alt="Random Forest Feature Importance Chart" class="fi-img" loading="lazy">
+                </div>
+
+                <div class="drivers-cards-box">
+
+                    <!-- Driver 1 -->
+                    <div class="driver-card glass-card">
+                        <div class="driver-num">01</div>
+                        <div class="driver-info">
+                            <h4>Alcohol Content <span class="driver-pct">15.20% Share</span></h4>
+                            <p>
+                                Primary positive contributor. Higher ethanol enhances body, viscous tears on the glass, perceived sweetness, and masks astringent tannins.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Driver 2 -->
+                    <div class="driver-card glass-card">
+                        <div class="driver-num">02</div>
+                        <div class="driver-info">
+                            <h4>Volatile Acidity <span class="driver-pct">14.81% Share</span></h4>
+                            <p>
+                                Primary negative contributor. High acetic acid imparts pungent vinegar notes, indicating spoilage or stuck fermentation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Driver 3 -->
+                    <div class="driver-card glass-card">
+                        <div class="driver-num">03</div>
+                        <div class="driver-info">
+                            <h4>Sulphates <span class="driver-pct">13.88% Share</span></h4>
+                            <p>
+                                Essential antimicrobial additive. Acts as a preservative protecting fresh fruit aromas against oxidative browning and degradation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Driver 4 -->
+                    <div class="driver-card glass-card">
+                        <div class="driver-num">04</div>
+                        <div class="driver-info">
+                            <h4>Total Sulfur Dioxide <span class="driver-pct">8.27% Share</span></h4>
+                            <p>
+                                Balances active free SO₂ to maintain bacterial defense while avoiding sulfurous pungency in bottle.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-left">
+                <span class="wine-icon">🍷</span>
+                <strong>VinoPredict AI</strong>
+                <span>• Oasis Infobyte Data Science Internship (Task 2)</span>
+            </div>
+            <div class="footer-right">
+                <span>Dataset: Cortez et al., 2009 (UCI ML Repository)</span>
+                <span>Production Machine Learning Pipeline</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vanilla Javascript Logic -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

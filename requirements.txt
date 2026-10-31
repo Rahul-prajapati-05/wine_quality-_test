@@ -1,0 +1,13 @@
+# Oasis Infobyte Data Science Internship - Task 2
+# Wine Quality Prediction Using Machine Learning
+# Core Machine Learning & Data Science Dependencies
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+joblib>=1.3.0
+
+# Web Application & Deployment Server
+starlette>=0.27.0
+uvicorn>=0.22.0
